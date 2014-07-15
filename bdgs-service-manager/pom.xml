@@ -1,5 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -9,10 +11,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>bdgs-reads</artifactId>
+    <artifactId>bdgs-service-manager</artifactId>
     <packaging>jar</packaging>
 
-    <name>BDGS: Read API Module</name>
+    <name>BDGS: Service Manager</name>
 
     <dependencies>
         <dependency>
@@ -39,13 +41,20 @@
         </dependency>
 
         <dependency>
+            <groupId>org.bdgenomics.services</groupId>
+            <artifactId>bdgs-reads</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libthrift</artifactId>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>readstore</finalName>
+        <finalName>service-manager</finalName>
 
         <plugins>
             <plugin>
@@ -53,15 +62,19 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <configuration>
                     <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>org.bdgenomics.service.reads.Main</mainClass>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>org.bdgenomics.services.manager.Main</mainClass>
                         </transformer>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                             <resource>reference.conf</resource>
                         </transformer>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"
+                                />
                     </transformers>
-                    <finalName>bdgs-reads-${project.version}</finalName>
+                    <finalName>bdgs-cli-${project.version}</finalName>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
@@ -148,13 +161,12 @@
                     <junitxml>.</junitxml>
                     <filereports>ReadStoreTestSuite.txt</filereports>
                     <!--
-                         As explained here: http://stackoverflow.com/questions/1660441/java-flag-to-enable-extended-serialization-debugging-info
-                         The second option allows us better debugging for serialization-based errors.
-                     -->
+As explained here:
+http://stackoverflow.com/questions/1660441/java-flag-to-enable-extended-serialization-debugging-info
+The second option allows us better debugging for serialization-based
+errors.
+-->
                     <argLine>-Xmx1024m -DSPARK_HOME=${basedir} -Dsun.io.serialization.extendedDebugInfo=true</argLine>
-                    <environmentVariables>
-                        <SPARK_HOME>${basedir}</SPARK_HOME>
-                    </environmentVariables>
                 </configuration>
                 <executions>
                     <execution>
