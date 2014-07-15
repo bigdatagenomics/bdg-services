@@ -1,0 +1,10 @@
+{
+    "spark_master" : "local[8]",
+    "data": [
+        {
+            "name": "na12878",
+            "locationType": "read",
+            "location": "s3n://1000genomes/data/NA12878/exome_alignment/NA12878.chrom11.ILLUMINA.bwa.CEU.low_coverage.20121211.bam"
+        }
+    ]
+}

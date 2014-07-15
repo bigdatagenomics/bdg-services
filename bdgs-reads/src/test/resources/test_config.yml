@@ -1,0 +1,9 @@
+port: 0
+transport: TFramedTransport
+protocol: TBinaryProtocol
+services:
+  - className: org.bdgenomics.services.reads.ConfigurableReadServiceExecutor
+    locations:
+    - name: test_reads
+      locationType: reads
+      location: classpath://reads-0-2-0

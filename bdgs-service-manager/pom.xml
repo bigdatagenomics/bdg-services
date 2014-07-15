@@ -41,13 +41,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.bdgenomics.services</groupId>
-            <artifactId>bdgs-reads</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libthrift</artifactId>
         </dependency>
