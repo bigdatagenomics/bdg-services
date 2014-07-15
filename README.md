@@ -1,4 +1,7 @@
-bdg-services
-============
+BDG Services
+======
 
-Utility classes for wrapping services or other interfaces around a Spark/ADAM cluster.
+This repository hosts helper methods and examples for setting up and
+running a service based on the Big Data Genomics projects.
+
+
