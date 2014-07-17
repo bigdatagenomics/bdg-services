@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.bdgenomics.service</groupId>
+    <groupId>org.bdgenomics.services</groupId>
     <artifactId>bdgs-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -37,6 +37,7 @@
         <module>bdgs-core</module>
         <module>bdgs-reads</module>
         <module>bdgs-cli</module>
+        <module>bdgs-service-manager</module>
     </modules>
 
     <licenses>
@@ -290,6 +291,13 @@
                 <groupId>com.amazonaws</groupId>
                 <artifactId>aws-java-sdk</artifactId>
                 <version>1.7.13</version>
+            </dependency>
+
+            <!-- yaml -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.14-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
