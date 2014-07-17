@@ -44,8 +44,8 @@ case class TypedLocation(name: String, locationType: String, location: String) {
   def loadRDD[T <: IndexedRecord](sc: ServiceContext, proj: Option[Schema] = None, select: Option[CombinedFilter[T, IDRangeIndexEntry]] = None): RDD[T] = {
 
     locationType match {
-      case "reads" => loadADAMRecordsRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMRecord, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
-      case "genotypes" => loadADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
+      case "reads"             => loadADAMRecordsRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMRecord, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
+      case "genotypes"         => loadADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
       case "indexed_genotypes" => loadIndexedADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
     }
   }
@@ -53,14 +53,14 @@ case class TypedLocation(name: String, locationType: String, location: String) {
   def createFileLocator(sc: ServiceContext): FileLocator =
     scheme match {
       case "s3" | "s3n" => new S3FileLocator(sc.credentials, bucketName, keyName)
-      case "file" => new LocalFileLocator(new File(fullPath))
-      case "classpath" => new ClasspathFileLocator(bucketName)
-      case _ => throw new IllegalArgumentException("TypedLocation doesn't support a '%s' scheme".format(scheme))
+      case "file"       => new LocalFileLocator(new File(fullPath))
+      case "classpath"  => new ClasspathFileLocator(bucketName)
+      case _            => throw new IllegalArgumentException("TypedLocation doesn't support a '%s' scheme".format(scheme))
     }
 
   def loadIndexedADAMGenotypesRDD(sc: ServiceContext,
-    proj: Option[Schema] = None,
-    select: Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]] = None): RDD[ADAMFlatGenotype] = {
+                                  proj: Option[Schema] = None,
+                                  select: Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]] = None): RDD[ADAMFlatGenotype] = {
 
     val index = createFileLocator(sc)
     val dataRoot = index.parentLocator().get
@@ -68,8 +68,8 @@ case class TypedLocation(name: String, locationType: String, location: String) {
   }
 
   def loadADAMGenotypesRDD(sc: ServiceContext,
-    proj: Option[Schema] = None,
-    select: Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]] = None): RDD[ADAMFlatGenotype] = {
+                           proj: Option[Schema] = None,
+                           select: Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]] = None): RDD[ADAMFlatGenotype] = {
 
     val loc = createFileLocator(sc)
     val filter = if (select.isDefined) select.get.recordFilter else null
@@ -77,8 +77,8 @@ case class TypedLocation(name: String, locationType: String, location: String) {
   }
 
   def loadADAMRecordsRDD(sc: ServiceContext,
-    proj: Option[Schema] = None,
-    select: Option[CombinedFilter[ADAMRecord, IDRangeIndexEntry]] = None): RDD[ADAMRecord] = {
+                         proj: Option[Schema] = None,
+                         select: Option[CombinedFilter[ADAMRecord, IDRangeIndexEntry]] = None): RDD[ADAMRecord] = {
 
     val loc = createFileLocator(sc)
     val filter = if (select.isDefined) select.get.recordFilter else null
