@@ -36,6 +36,6 @@ class ClasspathFileLocator(classpath: String) extends FileLocator {
 
   override def parentLocator(): Option[FileLocator] = FileLocator.parseSlash(classpath) match {
     case Some((parent, child)) => Some(new ClasspathFileLocator(parent))
-    case None => None
+    case None                  => None
   }
 }

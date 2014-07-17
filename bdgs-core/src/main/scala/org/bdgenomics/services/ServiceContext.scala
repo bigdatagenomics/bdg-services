@@ -24,8 +24,8 @@ import org.bdgenomics.adam.rdd.ADAMContext
 import scala.collection.JavaConversions._
 
 class ServiceContext(val config: ServiceConfiguration,
-    val sparkContext: SparkContext,
-    val credentials: AWSCredentials) {
+                     val sparkContext: SparkContext,
+                     val credentials: AWSCredentials) {
   def locations: Seq[TypedLocation] = {
     config.getLocations.map(location => TypedLocation(location.name, location.locationType, location.location))
   }
