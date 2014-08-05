@@ -54,7 +54,7 @@ object ServiceContext {
         classOf[org.codehaus.jackson.JsonFactory].asInstanceOf[Class[Any]],
         classOf[org.codehaus.jackson.map.ObjectMapper].asInstanceOf[Class[Any]],
         classOf[org.broadinstitute.variant.variantcontext.VariantContext].asInstanceOf[Class[Any]],
-        classOf[org.bdgenomics.formats.avro.ADAM].asInstanceOf[Class[Any]],
+        classOf[org.bdgenomics.formats.avro.BDG].asInstanceOf[Class[Any]],
         classOf[org.bdgenomics.adam.rdd.ADAMContext].asInstanceOf[Class[Any]])
         .map(_.getProtectionDomain.getCodeSource.getLocation.getPath)
         .distinct)
