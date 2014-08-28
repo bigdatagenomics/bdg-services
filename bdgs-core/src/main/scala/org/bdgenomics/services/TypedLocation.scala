@@ -25,7 +25,7 @@ import org.bdgenomics.adam.io._
 import org.bdgenomics.adam.parquet_reimpl._
 import org.bdgenomics.adam.parquet_reimpl.filters.CombinedFilter
 import org.bdgenomics.adam.parquet_reimpl.index.IDRangeIndexEntry
-import org.bdgenomics.formats.avro.{ ADAMFlatGenotype, ADAMRecord }
+import org.bdgenomics.formats.avro.{ AlignmentRecord, FlatGenotype }
 
 case class TypedLocation(name: String, locationType: String, location: String) {
 
@@ -44,9 +44,9 @@ case class TypedLocation(name: String, locationType: String, location: String) {
   def loadRDD[T <: IndexedRecord](sc: ServiceContext, proj: Option[Schema] = None, select: Option[CombinedFilter[T, IDRangeIndexEntry]] = None): RDD[T] = {
 
     locationType match {
-      case "reads"             => loadADAMRecordsRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMRecord, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
-      case "genotypes"         => loadADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
-      case "indexed_genotypes" => loadIndexedADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
+      case "reads"             => loadADAMRecordsRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[AlignmentRecord, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
+      case "genotypes"         => loadADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[FlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
+      case "indexed_genotypes" => loadIndexedADAMGenotypesRDD(sc, proj, select.asInstanceOf[Option[CombinedFilter[FlatGenotype, IDRangeIndexEntry]]]).asInstanceOf[RDD[T]]
     }
   }
 
@@ -60,29 +60,29 @@ case class TypedLocation(name: String, locationType: String, location: String) {
 
   def loadIndexedADAMGenotypesRDD(sc: ServiceContext,
                                   proj: Option[Schema] = None,
-                                  select: Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]] = None): RDD[ADAMFlatGenotype] = {
+                                  select: Option[CombinedFilter[FlatGenotype, IDRangeIndexEntry]] = None): RDD[FlatGenotype] = {
 
     val index = createFileLocator(sc)
     val dataRoot = index.parentLocator().get
-    new AvroIndexedParquetRDD[ADAMFlatGenotype](sc.sparkContext, select.get, index, dataRoot, proj)
+    new AvroIndexedParquetRDD[FlatGenotype](sc.sparkContext, select.get, index, dataRoot, proj)
   }
 
   def loadADAMGenotypesRDD(sc: ServiceContext,
                            proj: Option[Schema] = None,
-                           select: Option[CombinedFilter[ADAMFlatGenotype, IDRangeIndexEntry]] = None): RDD[ADAMFlatGenotype] = {
+                           select: Option[CombinedFilter[FlatGenotype, IDRangeIndexEntry]] = None): RDD[FlatGenotype] = {
 
     val loc = createFileLocator(sc)
     val filter = if (select.isDefined) select.get.recordFilter else null
-    new AvroParquetRDD[ADAMFlatGenotype](sc.sparkContext, filter, loc, proj)
+    new AvroParquetRDD[FlatGenotype](sc.sparkContext, filter, loc, proj)
   }
 
   def loadADAMRecordsRDD(sc: ServiceContext,
                          proj: Option[Schema] = None,
-                         select: Option[CombinedFilter[ADAMRecord, IDRangeIndexEntry]] = None): RDD[ADAMRecord] = {
+                         select: Option[CombinedFilter[AlignmentRecord, IDRangeIndexEntry]] = None): RDD[AlignmentRecord] = {
 
     val loc = createFileLocator(sc)
     val filter = if (select.isDefined) select.get.recordFilter else null
-    new AvroParquetRDD[ADAMRecord](sc.sparkContext, filter, loc, proj)
+    new AvroParquetRDD[AlignmentRecord](sc.sparkContext, filter, loc, proj)
   }
 }
 

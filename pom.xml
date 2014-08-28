@@ -24,7 +24,7 @@
         <spray.version>1.2.0</spray.version>
         <scala.version.major>2.10</scala.version.major>
         <spark.version>1.0.0</spark.version>
-        <adam.version>0.12.1-SNAPSHOT</adam.version>
+        <adam.version>0.12.2-SNAPSHOT</adam.version>
         <akka.version>2.2.3</akka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
