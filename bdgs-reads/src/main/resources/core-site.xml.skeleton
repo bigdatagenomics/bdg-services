@@ -1,0 +1,10 @@
+<configuration>
+  <property>
+    <name>fs.s3n.awsAccessKeyId</name>
+    <value>KEYID</value>
+  </property>
+  <property>
+    <name>fs.s3n.awsSecretAccessKey</name>
+    <value>SECRETKEY</value>
+  </property>
+</configuration>

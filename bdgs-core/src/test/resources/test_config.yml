@@ -2,7 +2,7 @@ port: 9091
 transport: TFramedTransport
 protocol: TBinaryProtocol
 services:
-  - className: org.bdgenomics.service.Test
+  - className: org.bdgenomics.services.Test
     locations:
     - name: test_reads
       locationType: reads
@@ -10,4 +10,4 @@ services:
     - name: test_reads_2
       locationType: reads
       location: classpath://reads12.sam
-  - className: org.bdgenomics.service.Test2
+  - className: org.bdgenomics.services.Test2

@@ -26,11 +26,11 @@ class YamlConfigurationSuite extends FunSuite {
     assert(e.getTransport === "TFramedTransport")
     assert(e.getProtocol === "TBinaryProtocol")
     assert(e.getServices.size === 2)
-    assert(e.getServices.get(0).getClassName === "org.bdgenomics.service.Test")
+    assert(e.getServices.get(0).getClassName === "org.bdgenomics.services.Test")
     assert(e.getServices.get(0).getLocations.size === 2)
     assert(e.getServices.get(0).getLocations.get(0).getName === "test_reads")
     assert(e.getServices.get(0).getLocations.get(0).getLocation === "classpath://reads12.sam")
-    assert(e.getServices.get(1).getClassName === "org.bdgenomics.service.Test2")
+    assert(e.getServices.get(1).getClassName === "org.bdgenomics.services.Test2")
     assert(e.getServices.get(1).getLocations.size === 0)
   }
 }

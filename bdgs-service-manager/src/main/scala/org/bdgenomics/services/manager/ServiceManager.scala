@@ -18,6 +18,7 @@
 package org.bdgenomics.services.manager
 
 import java.io.File
+import java.net.ServerSocket
 
 import org.apache.thrift.TMultiplexedProcessor
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -33,6 +34,8 @@ import scala.collection.JavaConversions._
  */
 class ServiceManager(private val configuration: Configuration) {
   var server: Option[TServer] = None
+
+  var port: Int = configuration.getPort
 
   /**
    * @note This is a blocking call, which will not exit until the service is stopped.
@@ -64,7 +67,10 @@ class ServiceManager(private val configuration: Configuration) {
           if (overrideName != null) overrideName else plugin.name, plugin.processor)
       }
 
-    val s = new TThreadPoolServer(new TThreadPoolServer.Args(new TServerSocket(9091))
+    val serverSocket = new ServerSocket(port)
+    port = serverSocket.getLocalPort
+
+    val s = new TThreadPoolServer(new TThreadPoolServer.Args(new TServerSocket(serverSocket))
       .processor(multiplexedProcessor)
       .protocolFactory(new TBinaryProtocol.Factory())
       .transportFactory(new TFramedTransport.Factory()))
@@ -72,6 +78,8 @@ class ServiceManager(private val configuration: Configuration) {
 
     s.serve()
   }
+
+  def isStarted = server.exists(_.isServing)
 
   /**
    * @note This must be called from a separate thread than [[start()]], and will cause the thread that [[start()]] was
